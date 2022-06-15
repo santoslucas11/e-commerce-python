@@ -1,5 +1,6 @@
 from ctypes import resize
 from distutils.command.upload import upload
+from pickletools import optimize
 from django.db import models
 from PIL import Image
 import os
@@ -30,7 +31,21 @@ class Produto(models.Model):
         img_pil = Image.open(img_full_path)
         original_width, original_height = img_pil.size
 
-        print(original_width, original_height)
+        if original_width <= new_width:
+            print('Oops! A largura ou da imagem atual é menor que nova largura.')
+            img_pil.close()
+            return
+
+        new_height = round((new_width * original_height) / original_width)
+
+        new_img = img_pil.resize((new_width, new_height), Image.LANCZOS)
+        new_img.save(
+            img_full_path,
+            optimize=True,
+            quality=50
+        )
+
+        print("Imagem redimensionada com sucesso!")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
