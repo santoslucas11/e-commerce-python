@@ -1,6 +1,7 @@
 from ctypes import resize
 from distutils.command.upload import upload
 from pickletools import optimize
+from tabnanny import verbose
 from django.db import models
 from PIL import Image
 import os
@@ -59,11 +60,16 @@ class Produto(models.Model):
         return self.nome
 
 
-"""
-        Variacao:
-            nome - char
-            produto - FK Produto
-            preco - Float
-            preco_promocional - Float
-            estoque - Int
-"""
+class Variacao(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=50, blank=True, null=True)
+    preco = models.FloatField()
+    preco_promocional = models.FloatField(default=0)
+    estoque = models.PositiveBigIntegerField(default=1)
+
+    def __str__(self):
+        return self.nome or self.produto.nome
+
+    class Meta:
+        verbose_name = 'Variação'
+        verbose_name_plural = 'Variações'
