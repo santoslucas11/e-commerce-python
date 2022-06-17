@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'produto',
+    'pedido',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -155,7 +156,7 @@ SESSION_SAVE_EVERY_REQUEST = False
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-#TODO remover: Apenas para ambiente de desenvolvimento
+# TODO remover: Apenas para ambiente de desenvolvimento
 INTERNALS_IPS = [
     '127.0.0.1'
 ]
